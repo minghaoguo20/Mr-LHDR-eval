@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "benchmark-eval"
+version = "0.3.0"
+description = "Evaluator for our benchmark: run a model on the items, judge the answers, compute OA/SA/CS/DACS."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "openai>=1.0",
+    "httpx[socks]>=0.27",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+# Only needed for `benchmark-eval run --hf-repo ...`; local --items usage never imports this.
+hf = ["huggingface_hub>=0.23"]
+
+[project.scripts]
+benchmark-eval = "benchmark_eval.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["benchmark_eval*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Run the tests straight from a clone, without installing the package first.
+pythonpath = ["."]

@@ -1,0 +1,6 @@
+# Mirrors [project.dependencies] in pyproject.toml -- keep the two in sync.
+openai>=1.0
+httpx[socks]>=0.27
+
+# Optional, only for `benchmark-eval run --hf-repo ...` (see [project.optional-dependencies] "hf"):
+# huggingface_hub>=0.23
