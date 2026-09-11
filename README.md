@@ -4,7 +4,7 @@
 <div align="center">
 
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b5212f.svg?logo=arxiv)](https://arxiv.org/abs/2609.11318)
-[![GitHub](https://img.shields.io/badge/Code-GitHub-181717.svg?logo=github)](https://github.com/minghaoguo20/Mr-LHDR-eval)
+[![GitHub](https://img.shields.io/badge/Code-GitHub-181717.svg?logo=github)](https://github.com/minghaoguo20/Mr-LHDR)
 [![Dataset](https://img.shields.io/badge/Dataset-Hugging%20Face-blue?logo=huggingface)](https://huggingface.co/datasets/Henryeahhh/Mr-LHDR)
 [![License](https://img.shields.io/badge/LICENSE-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -25,12 +25,12 @@ of 10.4, often spanning parallel branches.
 
 Four metrics, computed per item then averaged:
 
-| | |
-|---|---|
-| **OA** | Overall Accuracy — did the final answer match the reference? |
-| **SA** | Strict Accuracy — OA **and** every checklist step satisfied |
-| **CS** | Checklist Score — fraction of steps satisfied, in any order |
-| **DACS** | Dependency-Aware Checklist Score — a step counts only once every prerequisite in its dependency graph is also satisfied, so `DACS <= CS` always |
+| Metric | Full name | What it measures |
+|:---:|---|---|
+| **OA** | Overall Accuracy | Did the final answer match the reference? |
+| **SA** | Strict Accuracy | OA **and** every checklist step satisfied |
+| **CS** | Checklist Score | Fraction of steps satisfied, in any order |
+| **DACS** | Dependency-Aware Checklist Score | A step counts only once every prerequisite in its dependency graph is also satisfied, so `DACS ≤ CS` always |
 
 ## 🏁 Main Results
 
@@ -47,15 +47,15 @@ Judged by Qwen3-VL-235B (`Qwen/Qwen3-VL-235B-A22B-Instruct-FP8`).
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/minghaoguo20/Mr-LHDR-eval.git && cd Mr-LHDR-eval
+git clone https://github.com/minghaoguo20/Mr-LHDR.git && cd Mr-LHDR
 pip install -r requirements.txt
 ```
 
 ### 1. Get the data
 
 ```bash
-pip install -U "huggingface_hub[cli]"
-huggingface-cli download Henryeahhh/Mr-LHDR --repo-type dataset --local-dir ./data
+pip install -U huggingface_hub
+hf download Henryeahhh/Mr-LHDR --repo-type dataset --local-dir ./data
 ```
 
 <!-- Or skip the download and let `run` do it —
@@ -67,7 +67,7 @@ you installed the package). `judge`/`score` still take a plain
 ### 2. Decrypt
 
 ```bash
-benchmark-eval decrypt \
+python scripts/decrypt.py \
     --items data/metadata.jsonl \
     --out data/metadata.decrypted.jsonl
 ```
@@ -90,8 +90,10 @@ python scripts/run.py \
 export EVAL_JUDGE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 export EVAL_JUDGE_MODEL=qwen3.5-flash-2026-02-23
 export EVAL_JUDGE_API_KEY=...
-python scripts/judge.py --items data/metadata.jsonl --responses runs/gpt55.jsonl \
-                --out runs/gpt55.verdicts.jsonl
+python scripts/judge.py \
+    --items data/metadata.jsonl \
+    --responses runs/gpt55.jsonl \
+    --out runs/gpt55.verdicts.jsonl
 ```
 
 ### 5. Score — aggregate the metrics

@@ -52,7 +52,7 @@ def _download_hf_dataset(repo_id: str) -> Path:
     """Fetch a released dataset repo (metadata.jsonl + images/) via the HF hub cache.
 
     Kept optional: --items already covers "I have the files locally" (a plain
-    git clone or `huggingface-cli download` works with zero code here), so
+    git clone or `hf download` works with zero code here), so
     this is only exercised -- and huggingface_hub only imported -- when a
     caller opts into --hf-repo.
     """
